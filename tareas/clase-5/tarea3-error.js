@@ -11,7 +11,8 @@ let calcularTotalHoras = function () {
     let resultado = 0; 
     for(let i = 0; i < $horasClases.length; i++) {
         resultado = resultado + Number($horasClases[i].value);
-    }    
+    }
+    //console.log("El total de horas es: " + resultado)
     return resultado;
 }
 
@@ -20,43 +21,39 @@ let calcularTotalMinutos = function() {
     let resultado = 0;
     for(let i = 0; i < $minutosClases.length; i++) {
         resultado = resultado + Number($minutosClases[i].value);
-    }    
+    }
+    //console.log("El total de minutos es: " + resultado)
     return resultado;
 }
 
 const $segundosClases = document.querySelectorAll(".segundos");
-function calcularTotalSegundos() {
+let calcularTotalSegundos = function() {
     let resultado = 0;
     for(let i = 0; i < $segundosClases.length; i++) {
         resultado = resultado + Number($segundosClases[i].value);
-    }   
+    }    
     return resultado;
 }
+
 
 
 function mostrarTotalTiempo() {
     const $tiempoTotal = document.querySelector("#tiempo-total");
     const segundosPorMinuto = 60;
     const minutosPorHora = 60;
-    
-    let totalSegundos = calcularTotalSegundos();
-    let totalMinutos = calcularTotalMinutos();
-    let totalHoras = calcularTotalHoras();
+    /*Si intento clickear en el boton para calcular por segunda vez me dice que calcularTotalSegundos() me tira error de que NO es una funcion
+    No conviene usar function expression en este caso??
+    */
+    if(calcularTotalSegundos() >= segundosPorMinuto) {
 
-    if(totalSegundos >= segundosPorMinuto) {
-        const minutosASumar = parseInt(totalSegundos / segundosPorMinuto);
-        totalSegundos = totalSegundos % segundosPorMinuto;                
-        totalMinutos = totalMinutos + minutosASumar;
-        console.log("Minutos: " + totalMinutos + " Segundos: " +totalSegundos);
-    }    
-    if(totalMinutos >= minutosPorHora) {
-        const horasASumar = parseInt(totalMinutos / minutosPorHora);
-        totalMinutos = totalMinutos % minutosPorHora;
-        totalHoras = totalHoras + horasASumar;  
-        console.log("Horas: "+totalHoras+ " Minutos: "+ totalMinutos+ " Segundos: "+ totalSegundos);      
+        const minutosASumar = parseInt(calcularTotalSegundos() / segundosPorMinuto);
+        calcularTotalSegundos = calcularTotalSegundos() % segundosPorMinuto;                
+        calcularTotalMinutos = calcularTotalMinutos() + minutosASumar;
+        console.log("Minutos: " + calcularTotalMinutos + ", Segundos: " +calcularTotalSegundos);
+        
     }
 
-    $tiempoTotal.textContent = `El tiempo total de las clases es de: ${totalHoras} horas, ${totalMinutos} minutos y ${totalSegundos} segundos`;
+    // $tiempoTotal.textContent = `El tiempo total de las clases es de: ${calcularTotalHoras} horas, ${calcularTotalMinutos} minutos y ${calcularTotalSegundos} segundos`;
 }
 
 const $btnCalcularTiempo = document.querySelector("#btn-calcular-tiempo");
