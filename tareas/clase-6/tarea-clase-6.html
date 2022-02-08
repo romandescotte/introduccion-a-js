@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarea - Clase 6</title>
+</head>
+<body>
+    <main>
+        <article>
+            <h1>Calculadora de edades y sueldos familiar</h1>
+            <form action="">
+                <label for="cantidad-familiares">Ingrese la cantidad de miembros de su familia</label>
+                <input id="cantidad-familiares" type="number" />
+                <input type="button" value="Agregar" id="btn-agregar-familiares" />
+                <input type="button" value="Calcular" id="btn-calcular-edades">
+                <input type="reset" value="Empezar de nuevo">
+            </form>
+        </article>
+        <section id="seccion-edades">
+            <form action="" id="form-edades">
+                <p>La mayor edad es: <strong id="mayor-edad"></strong>, la menor edad es: <strong id="menor-edad"></strong>, el promedio de las edades es: <strong id="promedio-edad"></strong></p>
+            </form>
+        </section>
+        <section id="seccion-sueldos" style="display: none;">
+            <input type="button" value="Agregar Sueldo">
+            <input type="button" value="Quitar Sueldo">
+            <p>El mayor salario anual es: <strong id="mayor-sueldo"></strong>, el menor salario anual es: <strong id="menor-sueldo"></strong>, el salario anual promedio es: <strong id="promedio-sueldo-anual"></strong>, el salario mensual promedio es: <strong id="promedio-sueldo-mensual"></strong></p>
+            <input type="button" id="btn-calcular-sueldos" value="Calcular Sueldos">
+        </section>        
+    </main>
+    <script src="tarea6.js"></script>
+</body>
+</html>
