@@ -6,8 +6,62 @@ Al hacer click en "calcular", mostrar en un elemento pre-existente la mayor edad
 Punto bonus: Crear un botón para "empezar de nuevo" que empiece el proceso nuevamente, borrando los inputs ya creados (investigar cómo en MDN).
 */
 
+document.querySelector("#btn-agregar-familiares").onclick = function(event) {
+
+    event.preventDefault();
+
+    const $inputCantidadFamiliares = document.querySelector('#cantidad-familiares');
+    const cantidadFamiliares = Number($inputCantidadFamiliares.value);
+    
+    borrarInputsEdad()
+    crearInputsEdad(cantidadFamiliares);
+    if(cantidadFamiliares > 0) {
+        mostrarElementos('seccion-sueldos');
+    } else {
+        ocultarElementos('seccion-sueldos');
+        ocultarElementos('parrafo-calculo-edades');
+    }    
+}
+
+document.querySelector("#btn-calcular-edades").onclick = function(event) {
+
+    event.preventDefault();
+    
+    const edades = obtenerDatosInputs('edades-familiares');
+
+    if(edades.length === 0) {
+        alert('No has ingresado ninguna edad para calcular!')
+    } else {
+        mostrarEdad('mayor', obtenerMayorNumero(edades));
+        mostrarEdad('menor', obtenerMenorNumero(edades));
+        mostrarEdad('promedio', obtenerPromedio(edades));
+        mostrarElementos('parrafo-calculo-edades');
+    }
+}
+
+document.querySelector('#btn-empezar-de-nuevo').onclick = function(event) {
+
+    event.preventDefault();
+
+    const $listaEdades = document.querySelector("#edades-lista");
+
+    removerElemento($listaEdades);
+    ocultarElementos('seccion-sueldos');
+    ocultarElementos('parrafo-calculo-edades');
+    ocultarElementos('parrafo-calculo-sueldos');
+    
+    numeradorId = 1;
+}
+
+function borrarInputsEdad() {
+    const $listaOrdenada = document.querySelector('#edades-lista');
+    if($listaOrdenada) {
+        $listaOrdenada.remove();
+    }
+}
 
 function crearInputsEdad(cantidad) {
+
     const $formEdades = document.querySelector("#form-edades");
     const $listaOrdenada = document.createElement("ol");
     $listaOrdenada.id = "edades-lista";
@@ -25,90 +79,22 @@ function crearInputsEdad(cantidad) {
         $itemLista.appendChild($label);
         $itemLista.appendChild($input);
     }
-    
 }
 
-function mostrarBotonesSueldo() {
-    document.querySelector("#seccion-sueldos").style.display = "block";
+function mostrarElementos(idElemento) {
+    document.querySelector(`#${idElemento}`).className = '';
 }
 
-function ocultaBotonesSueldo() {
-    document.querySelector("#seccion-sueldos").style.display = "none";
+function ocultarElementos(idElemento) {
+    document.querySelector(`#${idElemento}`).className = 'oculto';
 }
 
-const $btnAgregarFamiliares = document.querySelector("#btn-agregar-familiares");
-const $inputCantidadFamiliares = document.querySelector("#cantidad-familiares");
-
-$btnAgregarFamiliares.onclick = function() {
-    const $cantidadFamiliares = Number($inputCantidadFamiliares.value);
-    crearInputsEdad($cantidadFamiliares);
-    mostrarBotonesSueldo();
-    return false;
+function mostrarEdad(tipo, valor) {
+    document.querySelector(`#${tipo}-edad`).textContent = valor;
 }
-
-
-function obtenerMayorEdad(edades) {
-    let mayorEdad = Number(edades[0].value);
-    for(let i = 0; i < edades.length; i++) {
-        if(Number(edades[i].value) > mayorEdad) {
-            mayorEdad = Number(edades[i].value);
-        }
-    }
-    console.log("mayor edad:" + mayorEdad);
-    return mayorEdad;
-}
-
-function obtenerMenorEdad(edades) {
-    let menorEdad = Number(edades[0].value);
-    for(let i = 0; i < edades.length ; i++) {
-        if(Number(edades[i].value) < menorEdad) {
-            menorEdad = Number(edades[i].value);
-        }
-    }
-    console.log("menor edad: "+menorEdad);
-    return menorEdad;
-}
-
-function obtenerPromedio(edades) {
-    let sumaEdades = 0;
-    for(i = 0; i < edades.length; i++) {
-        sumaEdades = sumaEdades + Number(edades[i].value);
-    }
-    console.log("promedio:" + sumaEdades/edades.length);
-    return sumaEdades / edades.length;
-}
-
-
-
-const $btnCalcularEdades = document.querySelector("#btn-calcular-edades");
-$btnCalcularEdades.onclick = function() {
-    const $edades = document.querySelectorAll(".edades-familiares");
-    const $mayorEdad = document.querySelector("#mayor-edad");
-    const $menorEdad = document.querySelector("#menor-edad");
-    const $promedioEdad = document.querySelector("#promedio-edad");
-
-    $mayorEdad.textContent = obtenerMayorEdad($edades);
-    $menorEdad.textContent = obtenerMenorEdad($edades);
-    $promedioEdad.textContent = obtenerPromedio($edades);
-    return false;
-}
-
-
 
 function removerElemento(elemento) {
-    document.querySelector("#mayor-edad").textContent = '';
-    document.querySelector("#menor-edad").textContent = '';
-    document.querySelector("#promedio-edad").textContent = '';
     elemento.remove();
-    ocultaBotonesSueldo();
-    numeradorId = 1;
-}
-
-const $btnEmpezarDeNuevo = document.querySelector(("[value = 'Empezar de nuevo']"));
-$btnEmpezarDeNuevo.onclick = function() {
-    const $listaEdades = document.querySelector("#edades-lista");
-    removerElemento($listaEdades);
-    return false;
 }
 
 
@@ -119,6 +105,30 @@ Al hacer click en "calcular", mostrar en un elemento pre-existente el mayor sala
 
 Punto bonus: si hay inputs vacíos, ignorarlos en el cálculo (no contarlos como 0).
 */
+
+
+document.querySelector('#btn-agregar-sueldo').onclick = function(event) {
+    event.preventDefault();
+    agregarInputSueldo();
+}
+
+document.querySelector('#btn-quitar-sueldo').onclick = function(event) {
+    event.preventDefault();
+    quitarInputSueldo();
+}
+
+document.querySelector("#btn-calcular-sueldos").onclick = function(event) {
+    event.preventDefault();
+    
+    const $inputSueldosFamiliares = document.querySelectorAll('.input-sueldos-familiares');
+    
+    if($inputSueldosFamiliares.length > 0) {
+        muestraSueldos(); 
+   } else {
+        alert("No hay sueldos de familiares, agrega algunos primero!");
+   }
+} 
+
 let numeradorId = 1;
 function agregarInputSueldo() {
 
@@ -144,11 +154,6 @@ function agregarInputSueldo() {
     }
 }
 
-const $btnAgregarSueldo = document.querySelector("[value = 'Agregar Sueldo']");
-$btnAgregarSueldo.onclick = function() {
-    agregarInputSueldo();
-}
-
 function quitarInputSueldo() {
     const $inputSueldo = document.querySelectorAll(".input-sueldos-familiares");
     const $labelSueldo = document.querySelectorAll(".label-sueldos-familiares");
@@ -161,82 +166,23 @@ function quitarInputSueldo() {
     }
 }
 
-const $btnQuitarSueldo = document.querySelector("[value = 'Quitar Sueldo']");
-$btnQuitarSueldo.onclick = function() {
-    quitarInputSueldo();
-    return false;
+function muestraSueldos() {
+
+    const sueldos = obtenerDatosInputs('input-sueldos-familiares');
+    if(sueldos.length === 0) {
+        alert("No has ingresado ningun valor de sueldo!");
+    } else {
+        popularSueldos('mayor', obtenerMayorNumero(sueldos));
+        popularSueldos('menor', obtenerMenorNumero(sueldos));
+        popularSueldos('promedio-mensual', obtenerPromedioSueldoMensual(sueldos));
+        popularSueldos('promedio-anual', obtenerPromedioSueldoAnual(sueldos));
+        mostrarElementos('seccion-sueldos');
+        mostrarElementos('parrafo-calculo-sueldos');
+    }   
 }
 
-
-function obtenerMayorSueldo(sueldos) {
-    let mayorSueldo = 0;
-    let sueldoAComparar;
-    for(let i = 0; i < sueldos.length; i++) {
-        if(sueldos[i].value !== '')  {
-            if(Number(sueldos[i].value) > mayorSueldo) {
-                mayorSueldo = Number(sueldos[i].value);
-            }
-        } 
-    }
-    return mayorSueldo;
-}
-
-function obtenerMenorSueldo(sueldos) {
-    let menorSueldo;
-    for(let i = 0; i < sueldos.length; i++){
-        if(sueldos[i].value !== '' && typeof(menorSueldo) !== 'number') {  
-            menorSueldo = Number(sueldos[i].value);
-        } else if(typeof(menorSueldo) === 'number' && Number(sueldos[i].value) < menorSueldo && sueldos[i].value !== '' ) {
-            menorSueldo = Number(sueldos[i].value);
-        }
-    }
-    return menorSueldo;
-}
-
-function obtenerPromedioSueldoMensual(sueldos) {
-    let sumaSueldos = 0;
-    for(let i = 0 ; i < sueldos.length ; i++) {
-        if(sueldos[i].value !== '') {
-            sumaSueldos = sumaSueldos + Number(sueldos[i].value);
-        }
-    }
-    const promedioSueldosMensual = sumaSueldos / sueldos.length;
-    return promedioSueldosMensual;
-}
-
-function obtenerPromedioSueldoAnual(sueldos) {
-    let sumaSueldos = 0;
-    const mesesEnElAnio = 12;
-    for(let i = 0; i < sueldos.length ; i++) {
-        if(sueldos[i].value !== '') {
-            sumaSueldos = sumaSueldos + Number(sueldos[i].value);
-        }
-    }
-    const totalAnualSueldos = sumaSueldos * mesesEnElAnio;
-    const promedioAnualSueldos = totalAnualSueldos / sueldos.length;
-    return promedioAnualSueldos;
-}
-
-function muestraSueldos(sueldos) {
-    const $mayorSueldo = document.querySelector("#mayor-sueldo");
-    const $menorSueldo = document.querySelector("#menor-sueldo");
-    const $promedioSueldoAnual = document.querySelector("#promedio-sueldo-anual");
-    const $promedioSueldoMensual = document.querySelector("#promedio-sueldo-mensual");
-
-    $mayorSueldo.textContent = obtenerMayorSueldo(sueldos);
-    $menorSueldo.textContent = obtenerMenorSueldo(sueldos);
-    $promedioSueldoAnual.textContent = obtenerPromedioSueldoAnual(sueldos);
-    $promedioSueldoMensual.textContent = obtenerPromedioSueldoMensual(sueldos);
-
-
-}
-
-
-
-const $btnCalcularSueldos = document.querySelector("#btn-calcular-sueldos");
-$btnCalcularSueldos.onclick = function() {
-    const $inputSueldosFamiliares = document.querySelectorAll(".input-sueldos-familiares");
-    muestraSueldos($inputSueldosFamiliares)
-    
+function popularSueldos(tipo, valor) {
+    document.querySelector(`#${tipo}-sueldo`).textContent = valor;
+    console.log(`#${tipo}-sueldo = ${valor}`);
 }
 
