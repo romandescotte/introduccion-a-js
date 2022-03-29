@@ -183,6 +183,6 @@ function muestraSueldos() {
 
 function popularSueldos(tipo, valor) {
     document.querySelector(`#${tipo}-sueldo`).textContent = valor;
-    console.log(`#${tipo}-sueldo = ${valor}`);
+    //console.log(`#${tipo}-sueldo = ${valor}`);
 }
 

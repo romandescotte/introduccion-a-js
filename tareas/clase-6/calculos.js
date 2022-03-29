@@ -10,7 +10,7 @@ function obtenerDatosInputs(claseDelElemento) {
 
       numeros.push(Number($input[i].value));
   }
-  console.log('Numeros extraidos de input: ' + numeros);
+  //console.log('Numeros extraidos de input: ' + numeros);
   return numeros;
 }
 
@@ -24,7 +24,7 @@ function obtenerMayorNumero(numeros) {
       }
   }
 
-  console.log("Mayor numero: " + mayorEdad);
+  //console.log("Mayor numero: " + mayorEdad);
   return mayorEdad;
 }
 
@@ -38,7 +38,7 @@ function obtenerMenorNumero(numeros) {
       }
   }
 
-  console.log("Menor numero: " + menorEdad);
+  //console.log("Menor numero: " + menorEdad);
   return menorEdad;
 }
 
@@ -50,7 +50,7 @@ function obtenerPromedio(numeros) {
       sumaNumeros = sumaNumeros + Number(numeros[i]);
   }
 
-  console.log("Promedio:" + sumaNumeros/numeros.length);
+  //console.log("Promedio:" + sumaNumeros/numeros.length);
   return sumaNumeros / numeros.length;
 }
 
